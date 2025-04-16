@@ -6,12 +6,16 @@ import TransactionList from './components/TransactionList';
 import MonthlyExpenseChart from './components/MonthlyExpenseChart';
 import CategoryPieChart from './components/CategoryPieChart';
 import DashboardSummary from './components/DashboardSummary';
+import BudgetManager from './components/BudgetManager';
+import BudgetComparisonChart from './components/BudgetComparisonChart';
+import SpendingInsights from './components/SpendingInsights';
 
 export default function Home() {
   const [transactions, setTransactions] = useState([]);
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'transactions', 'add'
+  const [budgets, setBudgets] = useState({});
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'transactions', 'add', 'budget'
 
-  // Load transactions from local storage on initial render
+  // Load transactions and budgets from local storage on initial render
   useEffect(() => {
     const savedTransactions = localStorage.getItem('transactions');
     if (savedTransactions) {
@@ -21,12 +25,25 @@ export default function Home() {
         console.error('Failed to parse saved transactions', error);
       }
     }
+    
+    const savedBudgets = localStorage.getItem('budgets');
+    if (savedBudgets) {
+      try {
+        setBudgets(JSON.parse(savedBudgets));
+      } catch (error) {
+        console.error('Failed to parse saved budgets', error);
+      }
+    }
   }, []);
 
-  // Save transactions to local storage whenever they change
+  // Save transactions and budgets to local storage whenever they change
   useEffect(() => {
     localStorage.setItem('transactions', JSON.stringify(transactions));
   }, [transactions]);
+  
+  useEffect(() => {
+    localStorage.setItem('budgets', JSON.stringify(budgets));
+  }, [budgets]);
 
   const addTransaction = (tx) => {
     setTransactions([...transactions, tx]);
@@ -38,6 +55,10 @@ export default function Home() {
     const newTransactions = transactions.filter((_, i) => i !== index);
     setTransactions(newTransactions);
   };
+  
+  const updateBudgets = (newBudgets) => {
+    setBudgets(newBudgets);
+  };
 
   // Tab navigation
   const renderTabContent = () => {
@@ -46,6 +67,7 @@ export default function Home() {
         return (
           <>
             <DashboardSummary transactions={transactions} />
+            <SpendingInsights transactions={transactions} budgets={budgets} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <MonthlyExpenseChart transactions={transactions} />
@@ -54,6 +76,7 @@ export default function Home() {
                 <CategoryPieChart transactions={transactions} />
               </div>
             </div>
+            <BudgetComparisonChart transactions={transactions} budgets={budgets} />
             <TransactionList transactions={transactions} onDelete={deleteTransaction} />
           </>
         );
@@ -69,6 +92,14 @@ export default function Home() {
             <TransactionForm onAdd={addTransaction} />
           </div>
         );
+      case 'budget':
+        return (
+          <>
+            <BudgetManager budgets={budgets} onUpdateBudgets={updateBudgets} />
+            <BudgetComparisonChart transactions={transactions} budgets={budgets} />
+            <SpendingInsights transactions={transactions} budgets={budgets} />
+          </>
+        );
       default:
         return null;
     }
@@ -80,24 +111,30 @@ export default function Home() {
       
       {/* Mobile Tabs */}
       <div className="md:hidden mb-6">
-        <div className="grid grid-cols-3 border rounded-lg overflow-hidden">
+        <div className="grid grid-cols-4 border rounded-lg overflow-hidden">
           <button 
-            className={`py-2 ${activeTab === 'dashboard' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
+            className={`py-2 text-sm ${activeTab === 'dashboard' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
             onClick={() => setActiveTab('dashboard')}
           >
             Dashboard
           </button>
           <button 
-            className={`py-2 ${activeTab === 'transactions' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
+            className={`py-2 text-sm ${activeTab === 'transactions' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
             onClick={() => setActiveTab('transactions')}
           >
             History
           </button>
           <button 
-            className={`py-2 ${activeTab === 'add' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
+            className={`py-2 text-sm ${activeTab === 'add' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
             onClick={() => setActiveTab('add')}
           >
             Add New
+          </button>
+          <button 
+            className={`py-2 text-sm ${activeTab === 'budget' ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}
+            onClick={() => setActiveTab('budget')}
+          >
+            Budgets
           </button>
         </div>
       </div>
@@ -107,17 +144,20 @@ export default function Home() {
         <div className="md:col-span-1">
           <div className="sticky top-6">
             <TransactionForm onAdd={addTransaction} />
+            <BudgetManager budgets={budgets} onUpdateBudgets={updateBudgets} />
           </div>
         </div>
         
         <div className="md:col-span-3">
           <DashboardSummary transactions={transactions} />
+          <SpendingInsights transactions={transactions} budgets={budgets} />
           
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <MonthlyExpenseChart transactions={transactions} />
             <CategoryPieChart transactions={transactions} />
           </div>
           
+          <BudgetComparisonChart transactions={transactions} budgets={budgets} />
           <TransactionList transactions={transactions} onDelete={deleteTransaction} />
         </div>
       </div>
