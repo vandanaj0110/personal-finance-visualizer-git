@@ -218,7 +218,7 @@ export default function SpendingInsights({ transactions, budgets }) {
       
       {/* General Insights */}
       <div className="mt-4">
-        <h3 className="font-medium mb-2">This Month's Highlights</h3>
+        <h3 className="font-medium mb-2">This Month&apos;s Highlights</h3>
         <ul className="space-y-2 text-sm">
           {insights.topCategory && (
             <li className="flex items-center">
