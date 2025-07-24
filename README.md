@@ -28,8 +28,6 @@ A modern, responsive web application built with **Next.js** and **React** that h
 
 ## 🛠️ Technology Stack
 
-**Based on the actual implementation:**
-
 - **Frontend Framework**: Next.js with App Router (Client Components)
 - **UI Library**: React 18 with Hooks (`useState`, `useEffect`)
 - **Styling**: Tailwind CSS utility classes
@@ -76,15 +74,6 @@ personal-finance-visualizer/
 ├── tailwind.config.js                  # Tailwind CSS configuration
 └── README.md                          # Project documentation (this file)
 ```
-
-### Key Configuration Files
-
-- **`next.config.mjs`**: Next.js configuration for build settings and optimizations
-- **`tailwind.config.js`**: Tailwind CSS configuration with custom colors and themes
-- **`postcss.config.mjs`**: PostCSS configuration to process Tailwind CSS
-- **`jsconfig.json`**: JavaScript project configuration for path mapping and IDE support
-- **`.eslintrc.json`**: Code quality rules and linting configuration
-- **`package.json`**: Dependencies (Next.js, React, Tailwind, Recharts) and npm scripts
 
 ## 🎯 Key Components
 
@@ -156,29 +145,6 @@ personal-finance-visualizer/
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-### Available Scripts
-
-```bash
-npm run dev          # Start development server with hot reload
-npm run build        # Create production build
-npm run start        # Start production server
-npm run lint         # Run ESLint for code quality checks
-```
-
-### Building for Production
-
-```bash
-npm run build        # Creates optimized production build in .next/
-npm run start        # Starts the production server
-```
-
-### Development Workflow
-
-1. **Code Quality**: ESLint is configured to maintain code quality standards
-2. **Hot Reload**: Development server automatically reloads on file changes  
-3. **Path Mapping**: jsconfig.json enables absolute imports from project root
-4. **CSS Processing**: PostCSS processes Tailwind CSS for optimized styling
-
 ## 📱 Usage Guide
 
 ### Adding Transactions
@@ -199,10 +165,6 @@ npm run start        # Starts the production server
 4. Insights section provides personalized financial recommendations
 
 ## 🔧 Technical Implementation
-
-## 🔧 Technical Implementation
-
-**Based on your actual code structure:**
 
 ### Project Setup & Configuration
 - **Next.js App Router**: Modern Next.js architecture with `app/` directory structure
@@ -252,3 +214,7 @@ npm run start        # Starts the production server
 - **Color Psychology**: Strategic use of colors (green for income, red for expenses)
 - **Interactive Charts**: Hover effects and tooltips for detailed information
 - **Contextual Information**: Charts include relevant metadata and formatting
+
+---
+
+## Project Link: [https://github.com/vandanaj0110/personal-finance-visualizer-git](https://github.com/vandanaj0110/personal-finance-visualizer-git)
